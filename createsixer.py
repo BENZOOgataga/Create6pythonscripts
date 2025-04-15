@@ -7,6 +7,7 @@ MODS_FOLDER = r"C:\Users\mrdar.DESKTOP-B6LKOPF\curseforge\minecraft\Instances\te
 EXCEL_FILE = "c6.xlsx"
 MOD_COLUMN_NAME = "Addon name"
 COMPAT_COLUMN_NAME = "Does it work?"
+FUZZY_MATCH_THRESHOLD = 75  # You can adjust this value for stricter/looser matching
 
 # === DISPLAY OPTIONS ===
 SHOW_INCOMPATIBLE = True      # ❌ Show mods that are known to be incompatible
@@ -35,7 +36,7 @@ for mod_file in mod_files:
     mod_name = mod_file.lower().replace(".jar", "").strip()
     best_match, score = process.extractOne(mod_name, compatible_mods.keys())
 
-    if score >= 80:
+    if score >= FUZZY_MATCH_THRESHOLD:
         compat = compatible_mods[best_match]
         if compat in ["yes", "true", "1"]:
             if SHOW_COMPATIBLE:
@@ -45,6 +46,6 @@ for mod_file in mod_files:
                 print(f"❌ Not compatible: {mod_file} (matched: {best_match}, score: {score})")
     else:
         if SHOW_NO_MATCHES:
-            print(f"⚠️ No match found: {mod_file}")
+            print(f"⚠️ No match found: {mod_file} (score: {score})")
 
 print("\n✅ Done.")
