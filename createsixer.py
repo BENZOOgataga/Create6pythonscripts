@@ -3,7 +3,7 @@ import pandas as pd
 from fuzzywuzzy import process
 
 # === CONFIG ===
-MODS_FOLDER = r"C:\Users\mrdar.DESKTOP-B6LKOPF\curseforge\minecraft\Instances\test create 6\mods"
+MODS_FOLDER = r"YOUR\MODS\FOLDER\PATH\HERE"  # You can copy paste it, it's fine
 EXCEL_FILE = "c6.xlsx"
 MOD_COLUMN_NAME = "Addon name"
 COMPAT_COLUMN_NAME = "Does it work?"
