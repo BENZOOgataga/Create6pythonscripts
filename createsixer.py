@@ -2,18 +2,28 @@ import os
 import pandas as pd
 from fuzzywuzzy import process
 import re
+import argparse
+
+# === ARGUMENT PARSING ===
+parser = argparse.ArgumentParser(description="Check mod compatibility with Create 6")
+parser.add_argument("mods_folder", type=str, help="Path to the mods folder")
+parser.add_argument("--show-incompatible", action="store_true", help="Show incompatible mods")
+parser.add_argument("--show-compatible", action="store_true", help="Show compatible mods")
+parser.add_argument("--show-no-matches", action="store_true", help="Show mods with no match found")
+parser.add_argument("--excel-file", type=str, default="c6.xlsx", help="Excel file with mod names and compatibility")
+parser.add_argument("--fuzzy-threshold", type=int, default=85, help="Fuzzy match threshold (default: 85)")
+
+args = parser.parse_args()
 
 # === CONFIG ===
-MODS_FOLDER = r"C:\Users\mrdar.DESKTOP-B6LKOPF\curseforge\minecraft\Instances\test create 6\mods"
-EXCEL_FILE = "c6.xlsx"
-MOD_COLUMN_NAME = "Addon name"
-COMPAT_COLUMN_NAME = "Does it work?"
-FUZZY_MATCH_THRESHOLD = 75  # Adjust for stricter/looser matching
+MODS_FOLDER = args.mods_folder  # Folder with mods
+EXCEL_FILE = args.excel_file   # Excel file containing mod compatibility info
+FUZZY_MATCH_THRESHOLD = args.fuzzy_threshold  # Fuzzy match threshold for the score
 
 # === DISPLAY OPTIONS ===
-SHOW_INCOMPATIBLE = True
-SHOW_NO_MATCHES = True
-SHOW_COMPATIBLE = False
+SHOW_INCOMPATIBLE = args.show_incompatible
+SHOW_COMPATIBLE = args.show_compatible
+SHOW_NO_MATCHES = args.show_no_matches
 
 # === LOAD MODS ===
 mod_files = [f for f in os.listdir(MODS_FOLDER) if f.endswith(".jar")]
@@ -22,12 +32,12 @@ mod_files = [f for f in os.listdir(MODS_FOLDER) if f.endswith(".jar")]
 df = pd.read_excel(EXCEL_FILE)
 
 # Clean Excel entries
-df[MOD_COLUMN_NAME] = df[MOD_COLUMN_NAME].astype(str).str.lower().str.strip()
-df[COMPAT_COLUMN_NAME] = df[COMPAT_COLUMN_NAME].astype(str).str.lower().str.strip()
+df["Addon name"] = df["Addon name"].astype(str).str.lower().str.strip()
+df["Does it work?"] = df["Does it work?"].astype(str).str.lower().str.strip()
 
 compatible_mods = {
     name: compat
-    for name, compat in zip(df[MOD_COLUMN_NAME], df[COMPAT_COLUMN_NAME])
+    for name, compat in zip(df["Addon name"], df["Does it work?"])
 }
 
 # === CLEANING FUNCTION ===
