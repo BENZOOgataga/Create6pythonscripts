@@ -9,3 +9,21 @@ https://docs.google.com/spreadsheets/d/1sEK9lDrp5nT00MzR6mSGFQzcq04kdcioGFuKwIqi
 
 > [!NOTE]  
 > By default, `createsixer.py` doesn't give you the unmatched mods, you'll need to enable the option in the config section of the file.  
+
+
+## Command examples:  
+Specifying an excel file and changing the threshold:  
+`python createsixer.py "C:\Users\mrdar.DESKTOP-B6LKOPF\curseforge\minecraft\Instances\test create 6\mods" --show-incompatible --fuzzy-threshold=75 --excel-file="C:\Users\mrdar.DESKTOP-B6LKOPF\PycharmProjects\PythFinder\c6.xlsx"`  
+
+Show no matches and changing the threshold:  
+`python createsixer.py "C:\Users\mrdar.DESKTOP-B6LKOPF\curseforge\minecraft\Instances\test create 6\mods" --show-no-matches --fuzzy-threshold=75`  
+
+Only show incompatible mods:  
+`python createsixer.py "C:\Users\mrdar.DESKTOP-B6LKOPF\curseforge\minecraft\Instances\test create 6\mods" --show-incompatible`  
+
+## Available arguments:    
+`--show-incompatible` : Show incompatible mods  
+`--show-compatible` : Show compatible mods, why would you want that anyway?  
+`--show-no-matches` : Show mods with no match found  
+`--excel-file` : Excel file with mod names and compatibility  
+`--fuzzy-threshold` : Fuzzy match threshold (default: 85)  
